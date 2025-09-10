@@ -149,7 +149,7 @@ def uniformCostSearch(problem:SearchProblem)->List[Direction]:
 
     return []
 
-def nullHeuristic(state:GameState, problem:SearchProblem=None)->List[Direction]:
+def nullHeuristic(state:GameState, problem:SearchProblem=None)->int:
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
@@ -157,12 +157,28 @@ def nullHeuristic(state:GameState, problem:SearchProblem=None)->List[Direction]:
     return 0
 
 def aStarSearch(problem:SearchProblem, heuristic=nullHeuristic)->List[Direction]:
-    """Search the node that has the lowest combined cost and heuristic first."""
-    '''
-        INSÉREZ VOTRE SOLUTION À LA QUESTION 4 ICI
-    '''
+    pq = util.PriorityQueue()
+    start = problem.getStartState()
+    pq.push((start, [], 0 ), heuristic(start, problem))  
+    visited = set()
 
-    util.raiseNotDefined()
+    while not pq.isEmpty():
+        state, actions, g_cost = pq.pop()  
+
+        if problem.isGoalState(state):
+            return actions
+
+        if state in visited:
+            continue
+        visited.add(state)
+
+        for successor, action, step_cost in problem.getSuccessors(state):
+            if successor not in visited:
+                new_g_cost = g_cost + step_cost
+                f_cost = new_g_cost + heuristic(successor, problem) 
+                pq.push((successor, actions + [action], new_g_cost), f_cost)
+
+    return []
 
 
 # Abbreviations
