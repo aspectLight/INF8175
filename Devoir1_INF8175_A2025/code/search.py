@@ -48,7 +48,8 @@ class SearchProblem:
         Returns True if and only if the state is a valid goal state.
         """
         util.raiseNotDefined()
-
+        assert False, "Not implemented yet"
+        
     def getSuccessors(self, state:Any)->List[Tuple[Any,Direction,int]]:
         """
           state: Search state
